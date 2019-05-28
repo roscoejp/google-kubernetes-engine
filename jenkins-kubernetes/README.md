@@ -34,6 +34,15 @@ Some information on setting up Jenkins can be found in [this Blazemeter article]
 ```bash
 kubectl describe services jenkins
 ```
-2. Log into the Jenkins master
-3. Navigate to Jenkins configuration page
-4. Scroll to the bottom and Add a Kubernetes Cloud option. You'll need to make use of the internal LB IP we grabbed earlier here.
+2. Log into Jenkins and navigate to “Manage Jenkins -> Configure System -> Cloud -> Kubernetes” and fill in the ‘Kubernetes URL’ and ‘Jenkins URL’ appropriately, by using the values from the previous setp:
+> This is an example image taken from the Blazemeter article
+![Kubernetes Cloud Config](https://cdn2.hubspot.net/hubfs/208250/Blog_Images/scalablejenkins13.png)
+3. Setup the 'Kubernetes Pod Template' section, specifically:
+
+   - Name - used as a prefix for unique slave names. Takes any string value.
+   - Labels - Selector labels for Jenkins build. May leave blank.
+   - Usage - Determines how often slaves will be used. Set this to 'Use this node as much as possible' to have jobs default to Docker slaves.
+   - Docker image - Docker image name that will be used for Jenkins slaves. Recommend using [the default image](https://hub.docker.com/r/jenkinsci/jnlp-slave/) for now.
+> This is an example image taken from the Blazemeter article
+![Kubernetes Pod Template](https://cdn2.hubspot.net/hubfs/208250/Blog_Images/scalablejenkins14.png)
+4. 
