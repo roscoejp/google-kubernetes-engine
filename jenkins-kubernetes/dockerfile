@@ -1,0 +1,14 @@
+FROM jenkins/jenkins:latest
+
+# install plugins
+COPY plugins.txt /usr/share/jenkins/plugins.txt
+RUN /usr/local/bin/plugins.sh /usr/share/jenkins/plugins.txt
+
+# apt update
+USER root
+RUN apt-get update
+USER jenkins
+
+# ports
+EXPOSE 8080
+EXPOSE 50000
