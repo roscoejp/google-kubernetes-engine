@@ -15,8 +15,8 @@ spec:
         type: transcode-job
     spec:
       containers:
-        - name: cloud-sdk
-          image: google/cloud-sdk:latest
+        - name: ffmpeg
+          image: linuxserver/ffmpeg
           command: ["/bin/sh", "-c"]
           args: ["source <(curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode.sh)"]
       # Do not restart containers after they exit
