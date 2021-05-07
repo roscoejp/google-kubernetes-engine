@@ -1,0 +1,25 @@
+# transcode-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  # Unique key of the Job instance
+  generateName: transcode-job-
+  labels:
+    type: transcode-job
+  namespace: transcode-jobs
+spec:
+  template:
+    metadata:
+      name: transcode-job
+      labels:
+        type: transcode-job
+    spec:
+      containers:
+        - name: cloud-sdk
+          image: google/cloud-sdk:latest
+          command: ["/bin/sh", "-c"]
+          args: ["source <(curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode.sh)"]
+      # Do not restart containers after they exit
+      restartPolicy: Never
+  # of retries before marking as failed.
+  backoffLimit: 1
