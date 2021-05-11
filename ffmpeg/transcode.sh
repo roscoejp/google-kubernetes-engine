@@ -5,4 +5,25 @@ echo "========================================"
 echo "Starting Job: ${JOB_NAME}"
 
 # Check ffmpeg version
-ffmpeg -version
+ffmpeg -version -hide_banner
+
+# Remote filename
+VIDEO_SOURCE="https://github.com/Matroska-Org/matroska-test-files/blob/master/test_files/test1.mkv?raw=true"
+
+# Download file
+START_TIME=$(date +%s)
+curl -o source.mkv -LJO "${VIDEO_SOURCE}"
+DURATION=$(expr $(date +%s) - $START_TIME)
+eval "echo Download duration was: $(date -ud "@$DURATION" +'$((%s/3600/24)) days %H hours %M minutes %S seconds')"
+
+# Transcode
+START_TIME=$(date +%s)
+ffmpeg \
+    -hide_banner \
+    -i ./source.mkv \
+    -c:v libx264 \
+    -b:v 4M \
+    -vf scale=1280:720 \
+    -c:a copy \
+    ./output.mkv
+eval "echo Download duration was: $(date -ud "@$DURATION" +'$((%s/3600/24)) days %H hours %M minutes %S seconds')"
