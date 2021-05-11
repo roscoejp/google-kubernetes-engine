@@ -21,8 +21,8 @@ spec:
           args: 
           - -c
           - |
-            "$(curl -sSL https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode.sh)"
+            "$(curl -H 'Cache-Control: no-cache' -sSL https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode.sh)"
       # Do not restart containers after they exit
       restartPolicy: Never
   # of retries before marking as failed.
-  backoffLimit: 0
+  backoffLimit: 1
