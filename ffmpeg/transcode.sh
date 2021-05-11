@@ -26,4 +26,4 @@ ffmpeg \
     -vf scale=1280:720 \
     -c:a copy \
     ./output.mkv
-eval "echo Download duration was: $(date -ud "@$DURATION" +'$((%s/3600/24)) days %H hours %M minutes %S seconds')"
+eval "echo Transcode duration was: $(date -ud "@$DURATION" +'$((%s/3600/24)) days %H hours %M minutes %S seconds')"
