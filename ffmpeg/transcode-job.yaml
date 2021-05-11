@@ -15,15 +15,22 @@ spec:
         type: transcode-job
     spec:
       containers:
-        - name: ffmpeg
-          image: linuxserver/ffmpeg:latest
-          command: ["/bin/bash", "-c"]
-          args: ["source <(curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode.sh)"]
-          env:
-          - name: JOB_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.name
+      - name: ffmpeg
+        image: linuxserver/ffmpeg:latest
+        command: ["/bin/bash", "-c"]
+        args: ["source <(curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode.sh)"]
+        env:
+        - name: JOB_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "500m"
+          limits:
+            memory: "2000Mi"
+            cpu: "1000m"
       # Do not restart containers after they exit
       restartPolicy: Never
   # of retries before marking as failed.
