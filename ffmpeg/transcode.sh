@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-# Hostname
-hostname
+# Job Info
+echo "========================================"
+echo "Starting Job: ${JOB_NAME}"
 
 # Check ffmpeg version
 ffmpeg -version
