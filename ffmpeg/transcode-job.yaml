@@ -17,12 +17,14 @@ spec:
       containers:
         - name: ffmpeg
           image: linuxserver/ffmpeg:latest
-          command: ["/bin/sh"]
-          args: 
-          - -c
-          - |
-            "$(curl -H 'Cache-Control: no-cache' -sSL https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode.sh)"
+          command: ["/bin/bash", "-c"]
+          args: ["source <(curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode.sh)"]
+          env:
+          - name: JOB_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
       # Do not restart containers after they exit
       restartPolicy: Never
   # of retries before marking as failed.
-  backoffLimit: 1
+  backoffLimit: 0
