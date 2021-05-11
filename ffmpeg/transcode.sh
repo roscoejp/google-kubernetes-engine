@@ -5,7 +5,7 @@ echo "========================================"
 echo "Starting Job: ${JOB_NAME}"
 
 # Check ffmpeg version
-ffmpeg -version -hide_banner
+ffmpeg -version
 
 # Remote filename
 VIDEO_SOURCE="https://github.com/Matroska-Org/matroska-test-files/blob/master/test_files/test1.mkv?raw=true"
@@ -26,4 +26,5 @@ ffmpeg \
     -vf scale=1280:720 \
     -c:a copy \
     ./output.mkv
+DURATION=$(expr $(date +%s) - $START_TIME)
 eval "echo Transcode duration was: $(date -ud "@$DURATION" +'$((%s/3600/24)) days %H hours %M minutes %S seconds')"
