@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
 # Check ffmpeg version
-ffmpeg
+ffmpeg -h
