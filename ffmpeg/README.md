@@ -23,7 +23,7 @@ Tests use a test file from the 'Chuck the Bunny' open source project: https://gi
   - Bitrate:    160 kb/s
     
 ## Performance Log
-| CPU Limt | Memory Limit | TPU Limit | Transcode Duration |
+| CPU Limt | Memory Limit | GPU Limit | Transcode Duration |
 | --- | --- | --- | --- |
 | 1 vCPU | 2GB | -- | 0 days 00 hours 04 minutes 53 seconds |
 | 1 vCPU | 2GB | -- | 0 days 00 hours 04 minutes 52 seconds |
@@ -32,8 +32,8 @@ Tests use a test file from the 'Chuck the Bunny' open source project: https://gi
 | 1 vCPU | 2GB | 1 GPU | 0 days 00 hours 03 minutes 53 seconds |
 | 1 vCPU | 2GB | 2 GPU | 0 days 00 hours 03 minutes 37 seconds |
 | 1 vCPU | 2GB | 2 GPU | 0 days 00 hours 03 minutes 35 seconds |
-| 1 vCPU | 2GB | 4 GPU | 0 days 00 hours 03 minutes ?? seconds |
-| 1 vCPU | 2GB | 4 GPU | 0 days 00 hours 03 minutes ?? seconds |
+| 1 vCPU | 2GB | 4 GPU | 0 days 00 hours 03 minutes 36 seconds |
+| 1 vCPU | 2GB | 4 GPU | 0 days 00 hours 03 minutes 39 seconds |
 | 6 vCPU | 8GB | -- | 0 days 00 hours 00 minutes 42 seconds |
 | 6 vCPU | 8GB | -- | 0 days 00 hours 00 minutes 41 seconds |
 | 6 vCPU | 8GB | -- | 0 days 00 hours 00 minutes 41 seconds |
