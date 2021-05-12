@@ -21,7 +21,7 @@ START_TIME=$(date +%s)
 ffmpeg \
     ${EXTRA_VARS} \
     -i ./source.mkv \
-    -c:v libx264 \
+    -c:v ${CODEC} \
     -b:v 4M \
     -vf scale=1280:720 \
     -c:a copy \
