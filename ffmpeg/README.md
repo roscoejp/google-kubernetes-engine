@@ -35,3 +35,17 @@ Tests use a test file from the 'Chuck the Bunny' open source project: https://gi
 | 6 vCPU | 8GB | -- | 0 days 00 hours 00 minutes 41 seconds |
 | 6 vCPU | 8GB | 1 TPU | ??? |
 | 6 vCPU | 8GB | 1 TPU | ??? |
+
+## Using this sample
+
+`kubectl create -f https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode-job.yaml`
+
+### Pre-reqs
+
+- A functioning GKE cluster with enough resources for the spec you wish to use.
+
+### GPU Notes
+
+- Ensure you've [installed the GPU drivers to your nodes](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus#installing_drivers).
+- Uncomment the GPU resource request/limit in the `transcode-job.yaml` pod spec.
+- Uncomment the GPU node tolderation in the `transcode-job.yaml` pod spec.
