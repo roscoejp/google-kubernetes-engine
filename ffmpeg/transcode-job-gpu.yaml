@@ -30,9 +30,6 @@ spec:
         - name: LD_LIBRARY_PATH
           value: "$LD_LIBRARY_PATH:/usr/local/nvidia/lib64"
         resources:
-          requests:
-            memory: "64Mi"
-            cpu: "300m"
           limits:
             memory: "2000Mi"
             cpu: "1000m"
