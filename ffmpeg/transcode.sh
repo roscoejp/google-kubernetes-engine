@@ -21,6 +21,7 @@ START_TIME=$(date +%s)
 ffmpeg \
     -hide_banner \
     -loglevel warning \
+    ${EXTRA_VARS} \
     -i ./source.mkv \
     -c:v libx264 \
     -b:v 4M \
