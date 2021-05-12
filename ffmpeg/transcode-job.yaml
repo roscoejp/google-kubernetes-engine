@@ -25,7 +25,7 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: EXTRA_VARS
-          value: "-hwaccel nvdec"
+          value: "-hwaccel cuda -hwaccel_output_format cuda"
         - name: LD_LIBRARY_PATH
           value: "$LD_LIBRARY_PATH:/usr/local/nvidia/lib64"
         resources:
