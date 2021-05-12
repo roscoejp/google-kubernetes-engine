@@ -28,7 +28,7 @@ Tests use a test file from the 'Chuck the Bunny' open source project: https://gi
 | 1 vCPU | 2GB | -- | 0 days 00 hours 04 minutes 53 seconds |
 | 1 vCPU | 2GB | -- | 0 days 00 hours 04 minutes 52 seconds |
 | 1 vCPU | 2GB | -- | 0 days 00 hours 03 minutes 53 seconds |
-| 1 vCPU | 2GB | 1 GPU | ??? |
+| 1 vCPU | 2GB | 1 GPU | 0 days 00 hours 03 minutes 50 seconds |
 | 1 vCPU | 2GB | 1 GPU | ??? |
 | 6 vCPU | 8GB | -- | 0 days 00 hours 00 minutes 42 seconds |
 | 6 vCPU | 8GB | -- | 0 days 00 hours 00 minutes 41 seconds |
