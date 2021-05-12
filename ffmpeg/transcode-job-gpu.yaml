@@ -24,7 +24,7 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: CODEC
-          value: "libx264"
+          value: "h264_nvenc"
         - name: EXTRA_VARS
           value: "-hwaccel cuda -hwaccel_output_format cuda"
         - name: LD_LIBRARY_PATH
