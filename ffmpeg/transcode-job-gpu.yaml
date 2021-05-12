@@ -6,7 +6,6 @@ metadata:
   generateName: transcode-job-
   labels:
     type: transcode-job
-  namespace: transcode-jobs
 spec:
   template:
     metadata:
@@ -24,6 +23,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: CODEC
+          value: "libx264"
         - name: EXTRA_VARS
           value: "-hwaccel cuda -hwaccel_output_format cuda"
         - name: LD_LIBRARY_PATH
