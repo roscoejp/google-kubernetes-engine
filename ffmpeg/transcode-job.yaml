@@ -24,7 +24,7 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: CODEC
-          value: "h264_nvenc"
+          value: "libx264"
         resources:
           limits:
             memory: "8000Mi"
