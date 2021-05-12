@@ -19,7 +19,6 @@ eval "echo Download duration was: $(date -ud "@$DURATION" +'$((%s/3600/24)) days
 # Transcode
 START_TIME=$(date +%s)
 ffmpeg \
-    -hide_banner \
     ${EXTRA_VARS} \
     -i ./source.mkv \
     -c:v libx264 \
