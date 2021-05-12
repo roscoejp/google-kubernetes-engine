@@ -2,6 +2,22 @@
 
 A simple script for creating an ffmpeg Kubernetes job from a Github hosted script. The pods will read a script from the specified Github RAW file (see transcode.sh) and then execute the script. The script in this repo prints some information to the command line and then executes a simple ffmpeg transcode on a test file.
 
+## Using this sample
+
+`curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode-job.yaml | kubectl create -f -`
+
+### Pre-reqs
+
+- A functioning GKE cluster with enough resources for the spec you wish to use.
+
+### GPU Notes
+
+- Ensure you've [installed the GPU drivers to your nodes](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus#installing_drivers).
+- Uncomment the GPU resource request/limit in the `transcode-job.yaml` pod spec.
+- Uncomment the GPU node tolderation in the `transcode-job.yaml` pod spec.
+
+---
+
 ## Why Read a Script from Github?
 
 Reading a script from a remote source allows for quicker testing in my experience. It also allows you to manage your scripts without having to rebuild the container each time. In a production environment you'd want the immutability of a script file in the container, so you'd be better off creating a Dockerfile and then copying your directory into the base image.
@@ -43,17 +59,3 @@ Tests use a test file from the 'Chuck the Bunny' open source project: https://gi
 | 6 vCPU | 8GB | 2 GPU | 0 days 00 hours 00 minutes 39 seconds |
 | 6 vCPU | 8GB | 4 GPU | 0 days 00 hours 00 minutes 38 seconds |
 | 6 vCPU | 8GB | 4 GPU | 0 days 00 hours 00 minutes 38 seconds |
-
-## Using this sample
-
-`kubectl create -f https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode-job.yaml`
-
-### Pre-reqs
-
-- A functioning GKE cluster with enough resources for the spec you wish to use.
-
-### GPU Notes
-
-- Ensure you've [installed the GPU drivers to your nodes](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus#installing_drivers).
-- Uncomment the GPU resource request/limit in the `transcode-job.yaml` pod spec.
-- Uncomment the GPU node tolderation in the `transcode-job.yaml` pod spec.
