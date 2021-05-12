@@ -16,8 +16,6 @@ A simple script for creating an ffmpeg Kubernetes job from a Github hosted scrip
 - Uncomment the GPU resource request/limit in the `transcode-job.yaml` pod spec.
 - Uncomment the GPU node tolderation in the `transcode-job.yaml` pod spec.
 
----
-
 ## Why Read a Script from Github?
 
 Reading a script from a remote source allows for quicker testing in my experience. It also allows you to manage your scripts without having to rebuild the container each time. In a production environment you'd want the immutability of a script file in the container, so you'd be better off creating a Dockerfile and then copying your directory into the base image.
