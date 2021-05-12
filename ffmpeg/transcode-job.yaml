@@ -1,0 +1,37 @@
+# transcode-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  # Unique key of the Job instance
+  generateName: transcode-job-
+  labels:
+    type: transcode-job
+spec:
+  template:
+    metadata:
+      name: transcode-job
+      labels:
+        type: transcode-job
+    spec:
+      containers:
+      - name: ffmpeg
+        image: linuxserver/ffmpeg:latest
+        command: ["/bin/bash", "-c"]
+        args: ["source <(curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode.sh)"]
+        env:
+        - name: JOB_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: CODEC
+          value: "libx264"
+        resources:
+          limits:
+            memory: "8000Mi"
+            cpu: "6000m"
+      # Do not restart containers after they exit
+      restartPolicy: Never
+  # of retries before marking as failed.
+  backoffLimit: 0
+  nodeSelector:
+    # cloud.google.com/gke-accelerator: nvidia-tesla-k80 # or nvidia-tesla-p100 or nvidia-tesla-p4 or nvidia-tesla-v100 or nvidia-tesla-t4 or nvidia-tesla-a100
