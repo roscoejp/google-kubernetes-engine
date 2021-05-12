@@ -30,11 +30,19 @@ Tests use a test file from the 'Chuck the Bunny' open source project: https://gi
 | 1 vCPU | 2GB | -- | 0 days 00 hours 03 minutes 53 seconds |
 | 1 vCPU | 2GB | 1 GPU | 0 days 00 hours 03 minutes 50 seconds |
 | 1 vCPU | 2GB | 1 GPU | 0 days 00 hours 03 minutes 53 seconds |
+| 1 vCPU | 2GB | 2 GPU | 0 days 00 hours 03 minutes 37 seconds |
+| 1 vCPU | 2GB | 2 GPU | 0 days 00 hours 03 minutes 35 seconds |
+| 1 vCPU | 2GB | 4 GPU | 0 days 00 hours 03 minutes ?? seconds |
+| 1 vCPU | 2GB | 4 GPU | 0 days 00 hours 03 minutes ?? seconds |
 | 6 vCPU | 8GB | -- | 0 days 00 hours 00 minutes 42 seconds |
 | 6 vCPU | 8GB | -- | 0 days 00 hours 00 minutes 41 seconds |
 | 6 vCPU | 8GB | -- | 0 days 00 hours 00 minutes 41 seconds |
 | 6 vCPU | 8GB | 1 GPU | 0 days 00 hours 00 minutes 39 seconds |
 | 6 vCPU | 8GB | 1 GPU | 0 days 00 hours 00 minutes 39 seconds |
+| 6 vCPU | 8GB | 2 GPU | 0 days 00 hours 00 minutes 37 seconds |
+| 6 vCPU | 8GB | 2 GPU | 0 days 00 hours 00 minutes 39 seconds |
+| 6 vCPU | 8GB | 4 GPU | 0 days 00 hours 00 minutes 38 seconds |
+| 6 vCPU | 8GB | 4 GPU | 0 days 00 hours 00 minutes 38 seconds |
 
 ## Using this sample
 
