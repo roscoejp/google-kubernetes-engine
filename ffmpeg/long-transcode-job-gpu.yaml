@@ -26,7 +26,7 @@ spec:
         - name: CODEC
           value: "h264_nvenc"
         - name: SOURCE
-          value: "https://github.com/Matroska-Org/matroska-test-files/blob/master/test_files/test5.mkv?raw=true"
+          value: "https://www.jell.yfish.us/media/jellyfish-200-mbps-4k-uhd-h264.mkv"
         - name: EXTRA_VARS
           value: "-hwaccel cuda -hwaccel_output_format cuda"
         - name: LD_LIBRARY_PATH
