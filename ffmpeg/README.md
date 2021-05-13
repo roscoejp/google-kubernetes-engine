@@ -206,7 +206,7 @@ Comparing all of the Costs per job based on the download times, we can see that 
 
 And once again, I need to point out that cost isn't everything here. Running jobs on Low CPU containers is going to always be the cheapest, but your transcode times will suffer greatly in the process.
 
-| Job Type | 5s Job Cost | 35s Job Cost | 600s Job Cost |
+| Job Type | 5s Download Job Cost | 35s Download Job Cost | 600s Download Job Cost |
 | --- | --- | --- | --- |
 | Low CPU |  $0.0002 |  $0.0049 | $0.0096 |
 | High CPU | $0.0022 | $0.0063 | $0.0324 |
