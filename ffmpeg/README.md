@@ -6,7 +6,7 @@ A simple script for creating an ffmpeg Kubernetes job from a Github hosted scrip
 
 Short Job without GPU:
 ```bash
-curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/short-transcode-job.yaml | kubectl create -f -
+curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode-job.yaml | kubectl create -f -
 ```
 
 Long Job without GPU:
