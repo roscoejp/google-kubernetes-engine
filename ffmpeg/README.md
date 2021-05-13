@@ -1,6 +1,9 @@
 # Transcoding Sample Job
 A simple script for creating an ffmpeg Kubernetes job from a Github hosted script. The pods will read a script from the specified Github RAW file (see transcode.sh) and then execute the script. The script in this repo prints some information to the command line and then executes a simple ffmpeg transcode on a test file.
 
+## Why Read a Script from Github?
+Reading a script from a remote source allows for quicker testing in my experience. It also allows you to manage your scripts without having to rebuild the container each time. In a production environment you'd want the immutability of a script file in the container, so you'd be better off creating a Dockerfile and then copying your directory into the base image.
+
 ## Using this sample
 Job without GPU:
 ```bash
@@ -12,7 +15,7 @@ Job with GPU:
 curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode-job-gpu.yaml | kubectl create -f -
 ```
 
-## Script details
+### Script details
 The transcode script takes in a few environment variables:
 `VIDEO_SOURCE` 
 `EXTRA_VARS`
@@ -26,13 +29,13 @@ The transcode script takes in a few environment variables:
 - Uncomment the GPU resource request/limit in the `transcode-job.yaml` pod spec.
 - Uncomment the GPU node tolderation in the `transcode-job.yaml` pod spec.
 
-## Why Read a Script from Github?
-Reading a script from a remote source allows for quicker testing in my experience. It also allows you to manage your scripts without having to rebuild the container each time. In a production environment you'd want the immutability of a script file in the container, so you'd be better off creating a Dockerfile and then copying your directory into the base image.
+---
 
 ## What files are being transcoded?
 These test files are taken from several freely available test sources. Note that file download times are not included in the final transcode durations.
 
 >NOTE: One thing I found in these tests is that transcode times are pretty unpredictable given a file's size on disk/length/framerate. I'm not a transcoding or video person by trade so I'm not going to speculate on why this is, I'm just pointing out for anyone reading this. I'd suggest running tests against a set of your own files in order to gauge your own transcode times if you're looking at making a decision on using CPU vs GPU transcoding. See the `Cost Benefit of GPUs` section towards the end for my thoughts on this.
+
 
 ### Big Buck Bunny
 This file comes from the [Matroska Org Git Repo](https://github.com/Matroska-Org/matroska-test-files) and is originally from the ['Big Buck Bunny'](https://peach.blender.org/) project.
@@ -73,6 +76,7 @@ This file usually takes ~5 seconds to download due to it's small size.
 | 6 vCPU | 8GB | 4 GPU | 00 minutes 05 seconds |
 | 6 vCPU | 8GB | 4 GPU | 00 minutes 05 seconds |
 
+
 ### Jell.yfish
 This file comes from the [Jellyfish Video Bitrate Test Files](https://jell.yfish.us/) page.
 
@@ -106,8 +110,9 @@ This file usually takes ~35 seconds to download into the container.
 | 6 vCPU | 8GB | 4 GPU | 00 minutes 01 seconds |
 | 6 vCPU | 8GB | 4 GPU | 00 minutes 01 seconds |
 
+
 ### Tears of Steel
-This file comes from the [Tears of Steel](https://mango.blender.org/) open source movie project.
+This file comes from the [Jellyfish Video Bitrate Test Files](https://jell.yfish.us/) page.
 
 - File Size: 6.27GB
 - Length: 00:12:14
@@ -144,6 +149,8 @@ This file usually takes ~10 minutes to download into the container.
 | 6 vCPU | 8GB | 4 GPU | 00 minutes 00 seconds |
 | 6 vCPU | 8GB | 4 GPU | 00 minutes 00 seconds |
 
+---
+
 ## Cost Benefit of GPUs
 The single biggest factor to consider when comtemplating using GPUs is _how important is it to get jobs done quickly vs cheaply_? This valuation is impossible for me to measure, so you'll need to keep this in mind as you go through and do your own calculations. There are quite a lot of other factors that go into pricing out machines and I don't have the energy to go through all of them in detail, but here's a starter list of what we should be looking at:
 - Node [Machine Type](https://cloud.google.com/compute/vm-instance-pricing)
@@ -156,7 +163,7 @@ The single biggest factor to consider when comtemplating using GPUs is _how impo
 - GPUs in general are expensive
   - All of my tests were done using [NVIDIA Tesla P4](https://www.nvidia.com/en-us/deep-learning-ai/inference-platform/hpc/) GPUs. These are middle of the road price wise on GCE.
 
-### Example Math
+### Price per Job (Based on Benchmark Data)
 So to keep this simple, let's look at how many parallel transcode jobs we could fit on 3 similarly priced machines using the specs from our earlier benchmarks:
 
 | Machine Type | vCPU | Memory | GPU | Cost / month | # Concurrent Jobs |
@@ -194,7 +201,7 @@ And finally GPU transcoding. We get the lowest concurrency here because GPUs are
 | 35s | 5s | 40s | 64,800 | 259,200 | $0.0051 |
 | 600s | 5s | 605s | 4,284 | 17,136 | $0.0772 |
 
-### Results (Using my Iffy Data)
+#### Results (Using my Benchmark Data)
 Comparing all of the Costs per job based on the download times, we can see that GPUs do suffer the most due to long download times (even with a consistent transcode time), but do approach the cost per job of High CPU jobs somewhere in the middle of 20-100s downloads with our results.
 
 And once again, I need to point out that cost isn't everything here. Running jobs on Low CPU containers is going to always be the cheapest, but your transcode times will suffer greatly in the process.
@@ -205,15 +212,17 @@ And once again, I need to point out that cost isn't everything here. Running job
 | High CPU | $0.0022 | $0.0063 | $0.0324 |
 | GPU | $0.0013 | $0.0051 | $0.0772 |
 
-### Some Sample Formulas
-We can probably simplify everything above by just doing some benchmarks and math yourself. Here are some quick formulas you can use with your own numbers:
-- `DOWNLOAD_TIME` and `TRANSCODE_TIME`: time for the download and transcode actions in seconds
-- `NODE_CONCURRENCY`: the number of concurrent jobs that can run on your node. This would be the lower of `${RESOURCE_CPU_LIMIT} / ${NODE_CPU}` or `${RESOURCE_MEMORY_LIMIT} / ${NODE_MEMORY}` in Kubernetes.
+---
+
+## Sample Formula: Price per Job
+You can simplify the above by doing some benchmarks and math using your own numbers:
+- `TOTAL_JOB_TIME_IN_SECONDS`: time for the download and transcode actions in seconds
+- `NODE_CONCURRENCY`: the number of concurrent jobs that can run on your node. This would be the lower of `${RESOURCE_CPU_LIMIT} / ${NODE_CPU}` or `${RESOURCE_MEMORY_LIMIT} / ${NODE_MEMORY}` or `${RESOURCE_GPU_LIMIT} / ${NODE_GPU}` in Kubernetes.
 - `NODE_COST_PER_MONTH`: the cost of running a given node in a month.
 
 ___Total Jobs per Month___
 ```bash
-= 2592000 / (${DOWNLOAD_TIME} + ${TARNSCODE_TIME}) * ${NODE_CONCURRENCY}
+= 2592000 / ${TOTAL_JOB_TIME_IN_SECONDS} * ${NODE_CONCURRENCY}
 ```
 ___Cost per Job___
 ```bash
@@ -221,5 +230,33 @@ ___Cost per Job___
 ```
 or
 ```bash
-= ${NODE_COST_PER_MONTH} / (2592000 / (${DOWNLOAD_TIME} + ${TARNSCODE_TIME}) * ${NODE_CONCURRENCY})
+= ${NODE_COST_PER_MONTH} / 2592000 / ${TOTAL_JOB_TIME_IN_SECONDS} * ${NODE_CONCURRENCY})
+```
+
+## Sample Formula: Price Per Second
+You can also look at job pricing as a function of its resource requirements. Since GCE lets us define custom machine types and gives us a static 'Cost per vCPU' and 'Cost per GPU', we can actually dumb the math down a bit:
+```bash
+= (${RESOURCE_COST_PER_UNIT_TIME} * ${NUM_RESOURCES}) / ${SECONDS_PER_UNIT_TIME} * ${TOTAL_JOB_TIME_SECONDS}
+```
+
+>NOTE: These cost estimates don't include other instance costs like Storage or Network. For these estimates we'll ignore these costs since they are generally small compared to Compute Resource costs for GKE.
+
+>NOTE: The GCP Pricing calculators take into account [Sustained Use Discounts](https://cloud.google.com/compute/docs/sustained-use-discounts) for monthly estimates. Don't use the monthly estimates or you'll underestimate your actual job costs by a large margin (~30%).
+
+For example, given a vCPU cost of [$0.033174/vCPU/hour](https://cloud.google.com/compute/vm-instance-pricing#n1_custommachinetypepricing) for N1 Custom Machines, we can estimate how much our High CPU jobs will cost based on just the job time using:
+```bash
+= ('6vCPU' * '$0.033174/vCPU/hour') / 720 * ${TOTAL_JOB_TIME_SECONDS}
+```
+Eventually becomes:
+```bash
+= '$0.00005529' * ${TOTAL_JOB_TIME_IN_SECONDS}
+```
+
+If we're looking at GPU jobs, we still need to assume a minimal number of vCPU per job. So for instance, using the same single vCPU costs as above and an added GPU cost of [$0.60/GPU/hour](https://cloud.google.com/compute/gpus-pricing#gpus):
+```bash
+= ('1vCPU' * '$0.033174/vCPU/hour' + '1GPU' * '0.60/GPU/hour') / 720 * ${TOTAL_JOB_TIME_SECONDS}
+```
+Eventually becomes:
+```bash
+= '$0.00087940833' / ${TOTAL_JOB_TIME_SECONDS}
 ```
