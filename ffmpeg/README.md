@@ -1,10 +1,35 @@
 # Transcoding Sample Job
 A simple script for creating an ffmpeg Kubernetes job from a Github hosted script. The pods will read a script from the specified Github RAW file (see transcode.sh) and then execute the script. The script in this repo prints some information to the command line and then executes a simple ffmpeg transcode on a test file.
 
-## Why Read a Script from Github?
-Reading a script from a remote source allows for quicker testing in my experience. It also allows you to manage your scripts without having to rebuild the container each time. In a production environment you'd want the immutability of a script file in the container, so you'd be better off creating a Dockerfile and then copying your directory into the base image.
+## Table of Contents
+- [Transcoding Sample Job](#transcoding-sample-job)
+  * [Table of Contents](#table-of-contents)
+- [Using this sample](#using-this-sample)
+  * [Script details](#script-details)
+    + [Why Read a Script from Github](#why-read-a-script-from-github)
+    + [Pre-reqs](#pre-reqs)
+    + [GPU Notes](#gpu-notes)
+- [What files are being transcoded](#what-files-are-being-transcoded)
+  * [Big Buck Bunny](#big-buck-bunny)
+    + [Download Time](#download-time)
+    + [Performance Log](#performance-log)
+  * [Jell.yfish](#jellyfish)
+    + [Download Time](#download-time-1)
+    + [Performance Log](#performance-log-1)
+  * [Tears of Steel](#tears-of-steel)
+    + [Download Time](#download-time-2)
+    + [Performance Log](#performance-log-2)
+- [Cost Benefit of GPUs](#cost-benefit-of-gpus)
+  * [Price per Job Using Benchmark Data](#price-per-job-using-benchmark-data)
+    + [Low Power CPU Transcoding](#low-power-cpu-transcoding)
+    + [High Power CPU Transcoding](#high-power-cpu-transcoding)
+    + [GPU Transcoding](#gpu-transcoding)
+  * [Results Using Benchmark Data](#results-using-benchmark-data)
+- [Sample Formula](#sample-formula)
+  * [Price per Job](#price-per-job)
+  * [Price Per Second](#price-per-second)
 
-## Using this sample
+# Using this sample
 Job without GPU:
 ```bash
 curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode-job.yaml | kubectl create -f -
@@ -15,11 +40,14 @@ Job with GPU:
 curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode-job-gpu.yaml | kubectl create -f -
 ```
 
-### Script details
+## Script details
 The transcode script takes in a few environment variables:
-`VIDEO_SOURCE` 
-`EXTRA_VARS`
-`CODEC`
+- `VIDEO_SOURCE` 
+- `EXTRA_VARS`
+- `CODEC`
+
+### Why Read a Script from Github
+Reading a script from a remote source allows for quicker testing in my experience. It also allows you to manage your scripts without having to rebuild the container each time. In a production environment you'd want the immutability of a script file in the container, so you'd be better off creating a Dockerfile and then copying your directory into the base image.
 
 ### Pre-reqs
 - A functioning GKE cluster with enough resources for the spec you wish to use.
@@ -31,13 +59,13 @@ The transcode script takes in a few environment variables:
 
 ---
 
-## What files are being transcoded?
+# What files are being transcoded
 These test files are taken from several freely available test sources. Note that file download times are not included in the final transcode durations.
 
 >NOTE: One thing I found in these tests is that transcode times are pretty unpredictable given a file's size on disk/length/framerate. I'm not a transcoding or video person by trade so I'm not going to speculate on why this is, I'm just pointing out for anyone reading this. I'd suggest running tests against a set of your own files in order to gauge your own transcode times if you're looking at making a decision on using CPU vs GPU transcoding. See the `Cost Benefit of GPUs` section towards the end for my thoughts on this.
 
 
-### Big Buck Bunny
+## Big Buck Bunny
 This file comes from the [Matroska Org Git Repo](https://github.com/Matroska-Org/matroska-test-files) and is originally from the ['Big Buck Bunny'](https://peach.blender.org/) project.
 
 - File Size: 22.3MB
@@ -53,10 +81,10 @@ This file comes from the [Matroska Org Git Repo](https://github.com/Matroska-Org
   - Bps: 32
   - Bitrate: 160 kb/s
 
-#### Download Time
+### Download Time
 This file usually takes ~5 seconds to download due to it's small size.
     
-#### Performance Log
+### Performance Log
 | CPU Limt | Memory Limit | GPU Limit | Transcode Duration |
 | --- | --- | --- | --- |
 | 1 vCPU | 2GB | -- | 04 minutes 53 seconds |
@@ -77,7 +105,7 @@ This file usually takes ~5 seconds to download due to it's small size.
 | 6 vCPU | 8GB | 4 GPU | 00 minutes 05 seconds |
 
 
-### Jell.yfish
+## Jell.yfish
 This file comes from the [Jellyfish Video Bitrate Test Files](https://jell.yfish.us/) page.
 
 - File Size: 1.4GB
@@ -87,10 +115,10 @@ This file comes from the [Jellyfish Video Bitrate Test Files](https://jell.yfish
   - Resolution: 3840x2160
   - Frame Rate: 29.970628
     
-#### Download Time
+### Download Time
 This file usually takes ~35 seconds to download into the container.
 
-#### Performance Log
+### Performance Log
 | CPU Limt | Memory Limit | GPU Limit | Transcode Duration |
 | --- | --- | --- | --- |
 | 1 vCPU | 2GB | -- | 09 minutes 31 seconds |
@@ -111,7 +139,7 @@ This file usually takes ~35 seconds to download into the container.
 | 6 vCPU | 8GB | 4 GPU | 00 minutes 01 seconds |
 
 
-### Tears of Steel
+## Tears of Steel
 This file comes from the [Jellyfish Video Bitrate Test Files](https://jell.yfish.us/) page.
 
 - File Size: 6.27GB
@@ -126,10 +154,10 @@ This file comes from the [Jellyfish Video Bitrate Test Files](https://jell.yfish
   - Sample Rate: 44100Hz
   - Bps: 32
     
-#### Download Time
+### Download Time
 This file usually takes ~10 minutes to download into the container.
 
-#### Performance Log
+### Performance Log
 | CPU Limt | Memory Limit | GPU Limit | Transcode Duration |
 | --- | --- | --- | --- |
 | 1 vCPU | 2GB | -- | 09 minutes 31 seconds |
@@ -151,7 +179,7 @@ This file usually takes ~10 minutes to download into the container.
 
 ---
 
-## Cost Benefit of GPUs
+# Cost Benefit of GPUs
 The single biggest factor to consider when comtemplating using GPUs is _how important is it to get jobs done quickly vs cheaply_? This valuation is impossible for me to measure, so you'll need to keep this in mind as you go through and do your own calculations. There are quite a lot of other factors that go into pricing out machines and I don't have the energy to go through all of them in detail, but here's a starter list of what we should be looking at:
 - Node [Machine Type](https://cloud.google.com/compute/vm-instance-pricing)
 - [GPU Type](https://cloud.google.com/compute/gpus-pricing#gpus)
@@ -163,7 +191,7 @@ The single biggest factor to consider when comtemplating using GPUs is _how impo
 - GPUs in general are expensive
   - All of my tests were done using [NVIDIA Tesla P4](https://www.nvidia.com/en-us/deep-learning-ai/inference-platform/hpc/) GPUs. These are middle of the road price wise on GCE.
 
-### Price per Job (Based on Benchmark Data)
+## Price per Job Using Benchmark Data
 So to keep this simple, let's look at how many parallel transcode jobs we could fit on 3 similarly priced machines using the specs from our earlier benchmarks:
 
 | Machine Type | vCPU | Memory | GPU | Cost / month | # Concurrent Jobs |
@@ -174,7 +202,7 @@ So to keep this simple, let's look at how many parallel transcode jobs we could 
 
 >NOTE: All of these machines have ~2 cores and a few GB of memory left over for other things like kubeDNS and Kubernetes controllers.
 
-#### Low Power CPU Transcoding (1vCPU/2GB RAM)
+### Low Power CPU Transcoding
 Using our low power CPU transcoding we get _a ton_ of concurrency in our jobs, but our individual job times are pretty long.
 
 | Source Download Time | Transcode Time | Total Job Time | Jobs / month per thread | Total jobs / month | Cost / job |
@@ -183,7 +211,7 @@ Using our low power CPU transcoding we get _a ton_ of concurrency in our jobs, b
 | 35s | 540s | 575s | 4,507 | 265,913 | $0.0049 |
 | 600s | 540s | 1140s | 2,273 | 134,107 | $0.0096 |
 
-#### High Power CPU Transcoding (6vCPU/8GB RAM)
+### High Power CPU Transcoding
 Switching to our high power CPU transcoding, we get less concurrency, but our job times are pretty reasonable.
 
 | Source Download Time | Transcode Time | Total Job Time | Jobs / month per thread | Total jobs / month | Cost / job |
@@ -192,7 +220,7 @@ Switching to our high power CPU transcoding, we get less concurrency, but our jo
 | 35s | 97s | 132s | 19,636 | 215,996 | $0.0063 |
 | 600s | 97s | 697s | 3,718 | 40,898 | $0.0324 |
 
-#### GPU Transcoding
+### GPU Transcoding
 And finally GPU transcoding. We get the lowest concurrency here because GPUs are so expensive, but our jobs are lightning fast. Unfortunately this means that download time has the largest impact on GPU efficiency as that's where almost all of our job time is spent.
 
 | Source Download Time | Transcode Time | Total Job Time | Jobs / month per thread | Total jobs / month | Cost / job |
@@ -201,7 +229,7 @@ And finally GPU transcoding. We get the lowest concurrency here because GPUs are
 | 35s | 5s | 40s | 64,800 | 259,200 | $0.0051 |
 | 600s | 5s | 605s | 4,284 | 17,136 | $0.0772 |
 
-#### Results (Using my Benchmark Data)
+## Results Using Benchmark Data
 Comparing all of the Costs per job based on the download times, we can see that GPUs do suffer the most due to long download times (even with a consistent transcode time), but do approach the cost per job of High CPU jobs somewhere in the middle of 20-100s downloads with our results.
 
 And once again, I need to point out that cost isn't everything here. Running jobs on Low CPU containers is going to always be the cheapest, but your transcode times will suffer greatly in the process.
@@ -214,7 +242,10 @@ And once again, I need to point out that cost isn't everything here. Running job
 
 ---
 
-## Sample Formula: Price per Job
+# Sample Formula
+We can boil down most of the above tables into a couple of different formula depending on how we want to interpret the data.
+
+## Price per Job
 You can simplify the above by doing some benchmarks and math using your own numbers:
 - `TOTAL_JOB_TIME_IN_SECONDS`: time for the download and transcode actions in seconds
 - `NODE_CONCURRENCY`: the number of concurrent jobs that can run on your node. This would be the lower of `${RESOURCE_CPU_LIMIT} / ${NODE_CPU}` or `${RESOURCE_MEMORY_LIMIT} / ${NODE_MEMORY}` or `${RESOURCE_GPU_LIMIT} / ${NODE_GPU}` in Kubernetes.
@@ -233,7 +264,7 @@ or
 = ${NODE_COST_PER_MONTH} / 2592000 / ${TOTAL_JOB_TIME_SECONDS} * ${NODE_CONCURRENCY})
 ```
 
-## Sample Formula: Price Per Second
+## Price Per Second
 You can also look at job pricing as a function of its time using its resource requirements. Since GCE lets us define custom machine types and gives us a static 'Cost per vCPU' and 'Cost per GPU', we can actually dumb the math down a bit:
 ```bash
 = (${RESOURCE_COST_PER_UNIT_TIME} * ${NUM_RESOURCES}) / ${SECONDS_PER_UNIT_TIME} * ${TOTAL_JOB_TIME_SECONDS}
