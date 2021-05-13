@@ -177,7 +177,7 @@ Using our low power CPU transcoding we get _a ton_ of concurrency in our jobs, b
 | 600s | 540s | 1140s | 2,273 | 134,107 | $0.0096 |
 
 #### High Power CPU Transcoding (6vCPU/8GB RAM)
-Switching to our high power CPU transcodign, we get less concurrency, but our job times are pretty reasonable.
+Switching to our high power CPU transcoding, we get less concurrency, but our job times are pretty reasonable.
 
 | Source Download Time | Transcode Time | Total Job Time | Jobs / month per thread | Total jobs / month | Cost / job |
 | --- | --- | --- | --- | --- | --- |
