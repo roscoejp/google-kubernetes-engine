@@ -289,5 +289,5 @@ If we're looking at GPU jobs, we still need to assume a minimal number of vCPU p
 ```
 Eventually becomes:
 ```bash
-= '$0.00087940833' / ${TOTAL_JOB_TIME_SECONDS}
+= '$0.00087940833' * ${TOTAL_JOB_TIME_SECONDS}
 ```
