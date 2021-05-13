@@ -276,7 +276,7 @@ You can also look at job pricing as a function of its time using its resource re
 
 For example, given a vCPU cost of [$0.033174/vCPU/hour](https://cloud.google.com/compute/vm-instance-pricing#n1_custommachinetypepricing) for N1 Custom Machines, we can estimate how much our High CPU jobs will cost based on just the job time using:
 ```bash
-= ('6vCPU' * '$0.033174/vCPU/hour') / 720 * ${TOTAL_JOB_TIME_SECONDS}
+= ('6vCPU' * '$0.033174/vCPU/hour') / '720s' * ${TOTAL_JOB_TIME_SECONDS}
 ```
 Eventually becomes:
 ```bash
@@ -285,7 +285,7 @@ Eventually becomes:
 
 If we're looking at GPU jobs, we still need to assume a minimal number of vCPU per job. So for instance, using the same single vCPU costs as above and an added GPU cost of [$0.60/GPU/hour](https://cloud.google.com/compute/gpus-pricing#gpus):
 ```bash
-= ('1vCPU' * '$0.033174/vCPU/hour' + '1GPU' * '0.60/GPU/hour') / 720 * ${TOTAL_JOB_TIME_SECONDS}
+= ('1vCPU' * '$0.033174/vCPU/hour' + '1GPU' * '0.60/GPU/hour') / '720s' * ${TOTAL_JOB_TIME_SECONDS}
 ```
 Eventually becomes:
 ```bash
