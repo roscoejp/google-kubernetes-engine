@@ -25,7 +25,7 @@ spec:
               fieldPath: metadata.name
         - name: CODEC
           value: "libx264"
-        - name: SOURCE
+        - name: VIDEO_SOURCE
           value: "https://github.com/Matroska-Org/matroska-test-files/blob/master/test_files/test1.mkv?raw=true"
         resources:
           limits:
