@@ -25,8 +25,8 @@ spec:
               fieldPath: metadata.name
         - name: CODEC
           value: "h264_nvenc"
-        - name: SOURCE
-          value: "https://github.com/Matroska-Org/matroska-test-files/blob/master/test_files/test1.mkv?raw=true"
+        - name: VIDEO_SOURCE
+          value: "https://www.jell.yfish.us/media/jellyfish-200-mbps-4k-uhd-h264.mkv"
         - name: EXTRA_VARS
           value: "-hwaccel cuda -hwaccel_output_format cuda"
         - name: LD_LIBRARY_PATH
