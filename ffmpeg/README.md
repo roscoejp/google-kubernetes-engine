@@ -234,7 +234,7 @@ or
 ```
 
 ## Sample Formula: Price Per Second
-You can also look at job pricing as a function of its resource requirements. Since GCE lets us define custom machine types and gives us a static 'Cost per vCPU' and 'Cost per GPU', we can actually dumb the math down a bit:
+You can also look at job pricing as a function of its time using its resource requirements. Since GCE lets us define custom machine types and gives us a static 'Cost per vCPU' and 'Cost per GPU', we can actually dumb the math down a bit:
 ```bash
 = (${RESOURCE_COST_PER_UNIT_TIME} * ${NUM_RESOURCES}) / ${SECONDS_PER_UNIT_TIME} * ${TOTAL_JOB_TIME_SECONDS}
 ```
