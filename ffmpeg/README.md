@@ -1,5 +1,5 @@
 # Transcoding Sample Job
-A simple script for creating an ffmpeg Kubernetes job from a Github hosted script. The pods will read a script from the specified Github RAW file (see transcode.sh) and then execute the script. The script in this repo prints some information to the command line and then executes a simple ffmpeg transcode on a test file.
+A simple script for creating a Kubernetes job from a Github hosted script. By default the pods will read the script from this repo (see transcode.sh), which will then print some information to the command line and executes an ffmpeg transcode on a specified test file.
 
 ## Table of Contents
 - [Transcoding Sample Job](#transcoding-sample-job)
