@@ -2,12 +2,12 @@
 A simple script for creating an ffmpeg Kubernetes job from a Github hosted script. The pods will read a script from the specified Github RAW file (see transcode.sh) and then execute the script. The script in this repo prints some information to the command line and then executes a simple ffmpeg transcode on a test file.
 
 ## Using this sample
-Short Job without GPU:
+Job without GPU:
 ```bash
 curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode-job.yaml | kubectl create -f -
 ```
 
-Long Job with GPU:
+Job with GPU:
 ```bash
 curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/long-transcode-job-gpu.yaml | kubectl create -f -
 ```
