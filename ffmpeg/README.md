@@ -261,7 +261,7 @@ ___Cost per Job___
 ```
 or
 ```bash
-= ${NODE_COST_PER_MONTH} / 2592000 / ${TOTAL_JOB_TIME_SECONDS} * ${NODE_CONCURRENCY})
+= ${NODE_COST_PER_MONTH} / 2592000 / ${TOTAL_JOB_TIME_SECONDS} * ${NODE_CONCURRENCY}
 ```
 
 ## Price Per Second
