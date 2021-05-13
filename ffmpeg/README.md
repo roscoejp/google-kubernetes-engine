@@ -9,7 +9,7 @@ curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/mast
 
 Job with GPU:
 ```bash
-curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/long-transcode-job-gpu.yaml | kubectl create -f -
+curl -s https://raw.githubusercontent.com/roscoejp/google-kubernetes-engine/master/ffmpeg/transcode-job-gpu.yaml | kubectl create -f -
 ```
 
 ## Script details
