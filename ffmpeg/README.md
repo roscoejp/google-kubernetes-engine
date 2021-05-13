@@ -253,7 +253,7 @@ You can simplify the above by doing some benchmarks and math using your own numb
 
 ___Total Jobs per Month___
 ```bash
-= 2592000 / ${TOTAL_JOB_TIME_SECONDS} * ${NODE_CONCURRENCY}
+= ${SECONDS_PER_UNIT_TIME} / ${TOTAL_JOB_TIME_SECONDS} * ${NODE_CONCURRENCY}
 ```
 ___Cost per Job___
 ```bash
@@ -261,7 +261,7 @@ ___Cost per Job___
 ```
 or
 ```bash
-= ${NODE_COST_PER_MONTH} / 2592000 / ${TOTAL_JOB_TIME_SECONDS} * ${NODE_CONCURRENCY}
+= ${NODE_COST_PER_MONTH} / ${SECONDS_PER_UNIT_TIME} / ${TOTAL_JOB_TIME_SECONDS} * ${NODE_CONCURRENCY}
 ```
 
 ## Price Per Second
