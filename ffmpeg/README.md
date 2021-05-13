@@ -194,8 +194,19 @@ And finally GPU transcoding. We get the lowest concurrency here because GPUs are
 | 35s | 5s | 40s | 64,800 | 259,200 | $0.0051 |
 | 600s | 5s | 605s | 4,284 | 17,136 | $0.0772 |
 
+### Results (Using my Iffy Data)
+Comparing all of the Costs per job based on the download times, we can see that GPUs do suffer the most due to long download times (even with a consistent transcode time), but do approach the cost per job of High CPU jobs somewhere in the middle of 20-100s downloads with our results.
+
+And once again, I need to point out that cost isn't everything here. Running jobs on Low CPU containers is going to always be the cheapest, but your transcode times will suffer greatly in the process.
+
+| Job Type | 5s Job Cost | 35s Job Cost | 600s Job Cost |
+| --- | --- | --- | --- |
+| Low CPU |  $0.0002 |  $0.0049 | $0.0096 |
+| High CPU | $0.0022 | $0.0063 | $0.0324 |
+| GPU | $0.0013 | $0.0051 | $0.0772 |
+
 ### Some Sample Formulas
-Here are some quick sample formulas you can use with your own numbers.
+We can probably simplify everything above by just doing some benchmarks and math yourself. Here are some quick formulas you can use with your own numbers:
 - `DOWNLOAD_TIME` and `TRANSCODE_TIME`: time for the download and transcode actions in seconds
 - `NODE_CONCURRENCY`: the number of concurrent jobs that can run on your node. This would be the lower of `${RESOURCE_CPU_LIMIT} / ${NODE_CPU}` or `${RESOURCE_MEMORY_LIMIT} / ${NODE_MEMORY}` in Kubernetes.
 - `NODE_COST_PER_MONTH`: the cost of running a given node in a month.
