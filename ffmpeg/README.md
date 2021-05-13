@@ -222,7 +222,7 @@ You can simplify the above by doing some benchmarks and math using your own numb
 
 ___Total Jobs per Month___
 ```bash
-= 2592000 / ${TOTAL_JOB_TIME_IN_SECONDS} * ${NODE_CONCURRENCY}
+= 2592000 / ${TOTAL_JOB_TIME_SECONDS} * ${NODE_CONCURRENCY}
 ```
 ___Cost per Job___
 ```bash
@@ -230,7 +230,7 @@ ___Cost per Job___
 ```
 or
 ```bash
-= ${NODE_COST_PER_MONTH} / 2592000 / ${TOTAL_JOB_TIME_IN_SECONDS} * ${NODE_CONCURRENCY})
+= ${NODE_COST_PER_MONTH} / 2592000 / ${TOTAL_JOB_TIME_SECONDS} * ${NODE_CONCURRENCY})
 ```
 
 ## Sample Formula: Price Per Second
@@ -249,7 +249,7 @@ For example, given a vCPU cost of [$0.033174/vCPU/hour](https://cloud.google.com
 ```
 Eventually becomes:
 ```bash
-= '$0.00005529' * ${TOTAL_JOB_TIME_IN_SECONDS}
+= '$0.00005529' * ${TOTAL_JOB_TIME_SECONDS}
 ```
 
 If we're looking at GPU jobs, we still need to assume a minimal number of vCPU per job. So for instance, using the same single vCPU costs as above and an added GPU cost of [$0.60/GPU/hour](https://cloud.google.com/compute/gpus-pricing#gpus):
