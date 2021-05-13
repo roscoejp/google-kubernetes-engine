@@ -107,7 +107,7 @@ This file usually takes ~35 seconds to download into the container.
 | 6 vCPU | 8GB | 4 GPU | 00 minutes 01 seconds |
 
 ### Tears of Steel
-This file comes from the [Jellyfish Video Bitrate Test Files](https://jell.yfish.us/) page.
+This file comes from the [Tears of Steel](https://mango.blender.org/) open source movie project.
 
 - File Size: 6.27GB
 - Length: 00:12:14
